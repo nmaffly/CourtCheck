@@ -1,2 +1,2 @@
 # CourtCheck
-Tennis Out of Bounds Detectors
+Tennis Out of Bounds Detector
