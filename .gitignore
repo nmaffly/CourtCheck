@@ -1,0 +1,7 @@
+__pycache__
+runs/*
+Dataset/*
+venv/*
+output_videos/*
+.DS_Store
+weights/*
