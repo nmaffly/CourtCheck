@@ -105,11 +105,25 @@ class BallTracker:
 
     def draw_ball_detections(self, frames, ball_detections):
         output_frames = []
+        prev_detections = [None, None]  
+
         for frame, ball_detection in zip(frames, ball_detections):
             x, y = ball_detection
+
             if x and y:
                 cv2.circle(frame, (int(x), int(y)), 5, (255, 255, 0), -1)
+
+            for i, prev_detection in enumerate(prev_detections):
+                if prev_detection:
+                    px, py = prev_detection
+                    if px and py:
+                        cv2.circle(frame, (int(px), int(py)), 5 - (i + 1), (255, 255, 0), -1)
+
+            prev_detections = [ball_detection] + prev_detections[:1]
+
             output_frames.append(frame)
+
         return output_frames
+
 
 

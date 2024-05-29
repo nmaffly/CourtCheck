@@ -7,7 +7,7 @@ from trackers import BallTracker, PlayerTracker
 import os
 
 def main():
-    game = '3'
+    game = '2'
     clip = '4'
     directory = f'Dataset/game{game}/Clip{clip}'
     input_video_file = f'Dataset/game{game}/Clip{clip}/G{game}Clip{clip}_video.mp4'
@@ -21,7 +21,12 @@ def main():
 
     ball_tracker = BallTracker('weights/model_best.pt')
 
-    ball_detections, dists = ball_tracker.infer_tracknet_model(frames, use_stubs=False, stub_path=f'tracker_stubs/G{game}C{clip}_stub.pkl')
+    if not os.path.exists(f'tracker_stubs/G{game}C{clip}_stub.pkl'):
+        use_stubs = False
+    else:
+        use_stubs = True
+    
+    ball_detections, dists = ball_tracker.infer_tracknet_model(frames, use_stubs=use_stubs, stub_path=f'tracker_stubs/G{game}C{clip}_stub.pkl')
     ball_detections = ball_tracker.remove_outliers(dists, ball_detections)
     ball_detections = ball_tracker.interpolate(ball_detections)
     output_frames = ball_tracker.draw_ball_detections(frames, ball_detections)
